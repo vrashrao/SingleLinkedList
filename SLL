@@ -1,0 +1,159 @@
+/*Title: Operation on Singly Linked List
+AUthor: Vrashank Rao
+Date: 24-09-2019
+Lab no:7
+SUbject: Data Structure*/
+#include<stdio.h>
+#include<stdlib.h>
+void front_insertion();
+void front_deletion();
+void rear_insertion();
+void rear_deletion();
+int count;
+struct student
+{
+	char Name[50],USN[20],Branch[30];
+	int sem;
+	char phone[50];
+	struct student *link;
+};
+typedef struct student *NODE;
+NODE Create_Node();
+NODE first=NULL;
+void display();
+void display_deletion(NODE);
+void main()
+{
+	int opt,n,i;
+	while(1)
+	{
+		printf("\n\t\t\tMenu:\n 1.Create a list with n nodes\n 2.Insertion from the front of SLL\n 3.Deletion at the front of SLL\n 4.Insertion from the End of SLL\n 5.Deletion from the End of SLL\n 6.Display the status and Number of Nodes in SLL\n 7.Exit\n Enter Your Choice\n");
+		scanf("%d",&opt);
+		switch(opt)
+		{
+			case 1: printf("Enter the number of nodes\n");
+					scanf("%d",&n);
+					for(i=0;i<n;i++)
+						front_insertion();
+					break;
+			case 2: front_insertion();
+					break;
+			case 3: front_deletion();
+					break;
+			case 4: rear_insertion();
+					break;
+			case 5: rear_deletion();
+					break;
+			case 6: display();
+					break;
+			case 7: printf("End of Execution\n");
+					return;
+			default: printf("Invalid Choice\nDo Enter a proper Choice\n");
+		}
+	}
+}
+void front_insertion()
+{
+	NODE temp;
+	temp=Create_Node();
+	if(first==NULL)
+	{
+	    first=temp;
+	    return;
+	}
+	temp->link=first;
+	first=temp;
+}
+NODE Create_Node()
+{
+	NODE temp;
+	temp=(NODE)malloc(sizeof(struct student));
+	printf("Enter Your Name\n");
+	scanf("%s",temp->Name);
+	printf("Enter Your usn\n");
+	scanf("%s",temp->USN);
+	printf("Enter Your Branch\n");
+	scanf("%s",temp->Branch);
+	printf("Enter Your Semester\n");
+	scanf("%d",&temp->sem);
+	printf("Enter Your Phone\n");
+	scanf("%s",temp->phone);
+	temp->link=NULL;
+	count++;
+	return temp;
+}
+void front_deletion()
+{   
+    NODE temp;
+	if(first==NULL)
+	{
+	   printf("no nodes to be deleted\n");
+	}
+	temp=first;
+	display_deletion(temp);
+	first=first->link;
+	free(temp);
+	temp=NULL;
+	
+}
+void rear_insertion()
+{	
+   NODE temp,cur;
+   temp=Create_Node();
+   if(first==NULL)
+   {
+      temp=first;
+      return;
+   }
+   cur=first;
+   while(cur->link!=NULL)
+         cur=cur->link;
+   cur->link=temp;
+}
+void rear_deletion()
+{
+   NODE prev,cur;
+   cur=first;
+   if(first==NULL)
+   {
+      printf("No nodes present in list\n");
+      return;
+   }
+   else if(first->link==NULL)
+   {
+        display_deletion(cur);
+        return;
+   }
+       prev=NULL;
+       while(cur->link!=NULL)
+       {
+           prev=cur;
+           cur=cur->link;
+       }
+       prev->link=NULL;
+       display_deletion(cur);
+       free(cur);
+       cur=NULL;
+}
+void display()
+{	
+	NODE temp;
+	if(first==NULL)
+		printf("List is Empty\n");
+	temp=first;
+	printf("There are %d nodes\n",count);
+	printf("Elements are\n");
+	while(temp->link!=NULL)
+	{
+		printf("|Name: %s|USN: %s|Branch: %s|Sem: %d|Phone: %s|->",temp->Name,temp->USN,temp->Branch,temp->sem,temp->phone);
+		temp=temp->link;
+	}
+	printf("|Name: %s|USN: %s|Branch: %s|Sem: %d|Phone: %s|",temp->Name,temp->USN,temp->Branch,temp->sem,temp->phone);
+}
+void display_deletion(NODE current)
+{
+	printf("Elements deleted are:\n Name: %s\n USN: %s\n Branch: %s\n Sem: %d\n Phone: %s\n",current->Name,current->USN,current->Branch,current->sem,current->phone);
+	count--;
+	printf("The number of nodes present are %d\n",count);
+}
+
