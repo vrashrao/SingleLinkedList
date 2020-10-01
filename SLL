@@ -156,4 +156,4 @@ void display_deletion(NODE current)
 	count--;
 	printf("The number of nodes present are %d\n",count);
 }
-
+/* I would recommend to use pointer as a reference technique*/
